@@ -20,7 +20,6 @@ import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.audio.AudioHandler;
 import com.jagrosh.jmusicbot.audio.RequestMetadata;
 import com.jagrosh.jmusicbot.commands.MusicCommand;
-import com.jagrosh.jmusicbot.utils.FormatUtil;
 
 /**
  *
@@ -43,11 +42,7 @@ public class SkipCmd extends MusicCommand
     {
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
         RequestMetadata rm = handler.getRequestMetadata();
-        double skipRatio = bot.getSettingsManager().getSettings(event.getGuild()).getSkipRatio();
-        if(skipRatio == -1) {
-          skipRatio = bot.getConfig().getSkipRatio();
-        }
-        if(event.getAuthor().getIdLong() == rm.getOwner() || skipRatio == 0)
+        if(event.getAuthor().getIdLong() == rm.getOwner())
         {
             event.reply(event.getClient().getSuccess()+" Skipped **"+handler.getPlayer().getPlayingTrack().getInfo().title+"**");
             handler.getPlayer().stopTrack();
@@ -66,12 +61,12 @@ public class SkipCmd extends MusicCommand
             }
             int skippers = (int)event.getSelfMember().getVoiceState().getChannel().getMembers().stream()
                     .filter(m -> handler.getVotes().contains(m.getUser().getId())).count();
-            int required = (int)Math.ceil(listeners * skipRatio);
+            int required = (int)Math.ceil(listeners * bot.getSettingsManager().getSettings(event.getGuild()).getSkipRatio());
             msg += skippers + " votes, " + required + "/" + listeners + " needed]`";
             if(skippers>=required)
             {
                 msg += "\n" + event.getClient().getSuccess() + " Skipped **" + handler.getPlayer().getPlayingTrack().getInfo().title
-                    + "** " + (rm.getOwner() == 0L ? "(autoplay)" : "(requested by **" + FormatUtil.formatUsername(rm.user) + "**)");
+                    + "** " + (rm.getOwner() == 0L ? "(autoplay)" : "(requested by **" + rm.user.username + "**)");
                 handler.getPlayer().stopTrack();
             }
             event.reply(msg);
