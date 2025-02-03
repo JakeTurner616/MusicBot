@@ -53,14 +53,23 @@
 
         <!-- Music Dependencies -->
         <dependency>
+
+            <groupId>org.slf4j</groupId>
+
+            <artifactId>slf4j-api</artifactId>
+
+            <version>LATEST</version>
+
+        </dependency>
+        <dependency>
             <groupId>dev.arbjerg</groupId>
             <artifactId>lavaplayer</artifactId>
-            <version>2.2.1</version>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>dev.lavalink.youtube</groupId>
             <artifactId>common</artifactId>
-            <version>1.11.3</version>
+            <version>LATEST</version>
         </dependency>
 	<dependency>
 	    <groupId>com.github.jagrosh</groupId>
@@ -70,24 +79,24 @@
         <dependency>
             <groupId>com.dunctebot</groupId>
             <artifactId>sourcemanagers</artifactId>
-            <version>1.9.0</version>
+            <version>LATEST</version>
         </dependency>
 
         <!-- Misc Internal Dependencies -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.13</version>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe</groupId>
             <artifactId>config</artifactId>
-            <version>1.3.2</version>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.15.3</version>
+            <version>LATEST</version>
         </dependency>
 
         <!-- Testing Dependencies -->
