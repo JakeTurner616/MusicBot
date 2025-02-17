@@ -79,7 +79,7 @@ jobs:
         id: create_release
         uses: ncipollo/release-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_TOKEN }}   # Use your PAT instead of GITHUB_TOKEN
           tag: ${{ github.event.inputs.version_number }}
           name: "Version ${{ github.event.inputs.version_number }}"
           draft: false
@@ -88,7 +88,7 @@ jobs:
 
       # Step 7: Upload the jar as a release asset.
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.1.2
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: "JMusicBot-${{ github.event.inputs.version_number }}.jar"
