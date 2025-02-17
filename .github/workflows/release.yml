@@ -1,5 +1,15 @@
 name: Release
 
+permissions:
+  contents: read
+  id-token: write
+  issues: write
+  deployments: write
+  actions: write
+  checks: write
+  packages: write
+  statuses: write
+
 on:
   workflow_dispatch:
     inputs:
