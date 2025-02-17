@@ -53,15 +53,27 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -U --batch-mode
 
+      # (Optional) Debug: List the contents of the target directory.
+      - name: List target directory
+        run: ls -la target/
+
       # Step 5: Rename the built jar.
       - name: Rename jar
         run: |
           # Locate the shaded jar. Adjust the pattern if needed.
           jar_file=$(ls target/*-All.jar | head -n 1)
+          if [ -z "$jar_file" ]; then
+            echo "Error: No jar file matching pattern found in target/"
+            exit 1
+          fi
           new_name="JMusicBot-${{ github.event.inputs.version_number }}.jar"
           mv "$jar_file" "$new_name"
           echo "Jar renamed to $new_name"
-      
+
+      # (Optional) Debug: List the workspace root to verify the jar is present.
+      - name: List workspace root
+        run: ls -la
+
       # Step 6: Create the GitHub release.
       - name: Create GitHub Release
         id: create_release
