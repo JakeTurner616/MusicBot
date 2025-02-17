@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"          # Location of your pom.xml file
+    schedule:
+      interval: "daily"     # Dependabot polls for updates daily
+    target-branch: "stable"
+    allow:
+      - dependency-name: "dev.arbjerg:lavaplayer"
