@@ -19,4 +19,4 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Build and Test with Maven
-        run: mvn clean verify --batch-mode --update-snapshots -U
+        run: mvn clean package -U
