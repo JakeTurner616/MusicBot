@@ -88,7 +88,7 @@ jobs:
 
       # Step 7: Upload the jar as a release asset.
       - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1.1.2
+        uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: "JMusicBot-${{ github.event.inputs.version_number }}.jar"
