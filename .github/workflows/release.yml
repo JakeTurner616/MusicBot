@@ -33,16 +33,20 @@ jobs:
 
       # Step 3: Update the version in pom.xml.
       - name: Update version in pom.xml
-        run: sed -i "s/Snapshot/${{ github.event.inputs.version_number }}/g" pom.xml
+        run: |
+          # This sed command assumes your current version is in the format: JMusicBot-<number>-stable
+          # It replaces the trailing '-stable' with '-<version_number>' provided as input.
+          sed -i "s/\(JMusicBot-[0-9.]*\)-stable/\1-${{ github.event.inputs.version_number }}/" pom.xml
+          echo "Updated pom.xml version to include release version ${{ github.event.inputs.version_number }}"
 
       # Step 4: Build the project and run tests.
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvn clean package -U --batch-mode
 
       # Step 5: Rename the built jar.
       - name: Rename jar
         run: |
-          # Assuming your shaded jar ends with "-All.jar"
+          # Locate the shaded jar. Adjust the pattern if needed.
           jar_file=$(ls target/*-All.jar | head -n 1)
           new_name="JMusicBot-${{ github.event.inputs.version_number }}.jar"
           mv "$jar_file" "$new_name"
