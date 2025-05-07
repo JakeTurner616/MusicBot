@@ -27,34 +27,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the stable branch.
       - name: Checkout stable branch
         uses: actions/checkout@v2
         with:
           ref: stable
 
-      # Step 2: Set up JDK 11 (no caching)
-      - name: Set up JDK 11
+      - name: Set up JDK 11 (no Maven config)
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
+          server-id: ''           # Disable server config
+          settings-path: ''       # Prevent settings.xml creation
 
-      # Step 3: Update the version in pom.xml.
       - name: Update version in pom.xml
         run: |
           sed -i "s/\(JMusicBot-[0-9.]*\)-stable/\1-${{ github.event.inputs.version_number }}/" pom.xml
           echo "Updated pom.xml version to include release version ${{ github.event.inputs.version_number }}"
 
-      # Step 4: Build the project and run tests.
       - name: Build with Maven
         run: mvn clean package -U --batch-mode
 
-      # Step 5: List the contents of the target directory.
       - name: List target directory
         run: ls -la target/
 
-      # Step 6: Rename the built jar.
       - name: Rename jar
         run: |
           jar_file=$(ls target/*-All.jar | head -n 1)
@@ -66,11 +62,9 @@ jobs:
           mv "$jar_file" "$new_name"
           echo "Jar renamed to $new_name"
 
-      # Step 7: List the workspace root
       - name: List workspace root
         run: ls -la
 
-      # Step 8: Create the GitHub Release.
       - name: Create GitHub Release
         id: create_release
         uses: ncipollo/release-action@v1
@@ -82,7 +76,6 @@ jobs:
           prerelease: false
           body: ${{ github.event.inputs.info }}
 
-      # Step 9: Upload the jar as a release asset.
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
